@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: School Library Management System API
+  description: API for managing books in a school library
+servers:
+  - url: http://localhost:8000
+paths:
+  /books:
+    get:
+      summary: Get all books
+      responses:
+        "200":
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+    post:
+      summary: Add a new book
+      requestBody:
+        description: Book object that needs to be added to the library
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "201":
+          description: The newly created book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /books/{id}:
+    get:
+      summary: Get a book by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the book to retrieve
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: The book with the specified ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+    delete:
+      summary: Delete a book by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the book to delete
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "204":
+          description: Book successfully deleted
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        genre:
+          type: string
+        description:
+          type: string
